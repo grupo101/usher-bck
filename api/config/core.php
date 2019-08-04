@@ -3,6 +3,18 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
  
+
+// set your default time-zone
+date_default_timezone_set('Asia/Manila');
+ 
+define("USE_JWT", false);
+// variables used for jwt
+$key = "u5H32-w38"; #usher-web
+$iss = "http://example.org";
+$aud = "http://example.com";
+$iat = 1356999524;
+$nbf = 1357000000;
+
 // home page url
 $home_url="http://localhost/usher-bck/api/";
  

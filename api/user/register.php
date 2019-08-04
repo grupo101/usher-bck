@@ -42,7 +42,10 @@ if(
         http_response_code(201);
  
         // tell the user
-        echo json_encode(array("message" => "User was created."));
+        echo json_encode(array(
+            "success" => true,
+            "message" => "User was created."
+        ));
     }
  
     // if unable to create the user, tell the user
@@ -52,7 +55,9 @@ if(
         http_response_code(503);
  
         // tell the user
-        echo json_encode(array("message" => "Unable to create user."));
+        echo json_encode(array("success" => false,
+                "message" => "Unable to create user."
+        ));
     }
 }
  
@@ -63,6 +68,8 @@ else{
     http_response_code(400);
  
     // tell the user
-    echo json_encode(array("message" => "Unable to create user. Data is incomplete."));
+    echo json_encode(array("success" => false,
+        "message" => "Unable to create user. Data is incomplete."
+    ));
 }
 ?>
