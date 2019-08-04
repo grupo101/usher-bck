@@ -174,12 +174,12 @@ class User{
         $query = "INSERT INTO
                     " . $this->table_name . "
                 SET
-                    name=:name, 
-                    surname=:surname, 
-                    username=:username, 
-                    password=:password, 
-                    access=0, 
-                    tstamp=NULL";
+                    `name`=:name, 
+                    `surname`=:surname, 
+                    `username`=:username, 
+                    `password`=:password, 
+                    `access`=0, 
+                    `tstamp`=NULL";
     
         // prepare query
         $stmt = $this->conn->prepare($query);
@@ -197,9 +197,10 @@ class User{
         //$stmt->bindParam(":password", $this->password);
         
         // hash the password before saving to database
-        $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+        //$password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+        $password_hash = $this->password;
         $stmt->bindParam(':password', $password_hash);
- 
+        
         // execute query
         if($stmt->execute()){
             return true;
@@ -213,17 +214,17 @@ class User{
     function update(){
  
         // if password needs to be updated
-       $password_set = !empty($this->password) ? "password = :password," : "";
+       $password_set = !empty($this->password) ? "`password` = :password," : "";
  
         // update query
         $query = "UPDATE
                     " . $this->table_name . "
                 SET
-                    name = :name,
-                    surname = :surname,
-                    username = :username,
+                    `name` = :name,
+                    `surname` = :surname,
+                    `username` = :username,
                     {$password_set}
-                    tstamp = NULL
+                    `tstamp` = NULL
                 WHERE
                     userID = :id";
 
@@ -244,7 +245,8 @@ class User{
         if(!empty($this->password)){
             $this->password=htmlspecialchars(strip_tags($this->password));
             //$stmt->bindParam(":password", $this->password);
-            $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+            //$password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+            $password_hash = $this->password;
             $stmt->bindParam(':password', $password_hash);
         }
         

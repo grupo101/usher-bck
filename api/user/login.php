@@ -7,8 +7,8 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // files needed to connect to database
-include_once '../config/database.php';
-include_once '../objects/user.php';
+include_once __DIR__.'/../config/database.php';
+include_once __DIR__.'/../objects/user.php';
  
 // get database connection
 $database = new Database();
@@ -26,14 +26,16 @@ $username_exists = $user->usernameExists();
  
 // generate json web token
 // https://tools.ietf.org/html/rfc7519#section-4.1
-include_once '../config/core.php';
-include_once '../libs/php-jwt-master/src/BeforeValidException.php';
-include_once '../libs/php-jwt-master/src/ExpiredException.php';
-include_once '../libs/php-jwt-master/src/SignatureInvalidException.php';
-include_once '../libs/php-jwt-master/src/JWT.php';
+include_once __DIR__.'/../config/core.php';
+include_once __DIR__.'/../libs/php-jwt-master/src/BeforeValidException.php';
+include_once __DIR__.'/../libs/php-jwt-master/src/ExpiredException.php';
+include_once __DIR__.'/../libs/php-jwt-master/src/SignatureInvalidException.php';
+include_once __DIR__.'/../libs/php-jwt-master/src/JWT.php';
 use \Firebase\JWT\JWT;
 
 // check if username exists and if password is correct
+//TODO: HASTA QUE USEMOS HASH
+$user->password = password_hash($user->password, PASSWORD_BCRYPT);
 if($username_exists && password_verify($data->password, $user->password)){
  
     $token = array(
