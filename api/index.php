@@ -1,4 +1,4 @@
-<?php  
+<?php 
 function getPhpFromUrl($url) {
     $url = parse_url($url, PHP_URL_PATH); // dirname($_SERVER['PHP_SELF']);
     $position = strpos($url,".php");
@@ -20,7 +20,26 @@ function getPath($url) {
         return substr($url,0,$position );
     return false;
 }
-    
+
+define('THISAPP_TOKEN','48370255gBrgdlpl050588');
+
+
+//$token = $_POST['token'];
+$token = isset($_GET['token']) ? $_GET['token'] : "";
+
+//Verificamos el token
+$auth = ($token == THISAPP_TOKEN ? true : false);
+
+if (!$auth) {
+    // set response code
+    http_response_code(401);
+ 
+    // tell the user access denied
+    echo json_encode(array("message" => "Access denied."));
+
+    die();
+}
+
 $url = $_SERVER['REQUEST_URI'];
 $url = getPhpFromUrl($url);
 $api = getRelativeFileFromUrl($_SERVER['SCRIPT_NAME'],$url);
